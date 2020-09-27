@@ -1,21 +1,24 @@
 ---
-title: "assignment04"
+title: "Assignment04 - Vizualization of Diversity and Inclusion in the Workplace"
 author: "Maria Pachon"
-date: "9/27/2020"
+date: "September 27th, 2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#set up packages
+library(tidyverse)
+
+#loads data
+#data <- read_csv("FEVS_2019.csv")
 ```
 
-## R Markdown
+## Overview
+For this analysis, I will be using the 2019 Federal Employee Viewpoint Survey (FEVS). This is a survey which provides employee's perceptions on the work environment and the overall success in their work unit. The survey also has a number of demographic measures that provide insight into how these perspectives may converge or diverge across groups. The FEVS has been used to create  a number of tools focused on diversity and inclusion in the work place.
+The FEVS data is public and available here: [RStudio] (https://www.opm.gov/fevs/public-data-file/)
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
+```{r }
 summary(cars)
 ```
 
