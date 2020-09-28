@@ -9,7 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 #set up packages
 library(tidyverse)
-install.packages("ggridges")
 ##add github url
 
 ```
@@ -105,23 +104,34 @@ ggplot(data = dta1, aes(x = DMINORITY, y = Q34)) +
 
 ```{r pressure, echo=FALSE}
 
-nonminority <- dta %>%
-  mutate(Q30 = as.numeric(Q30)) %>%
-  group_by(DMINORITY, Q30)  %>%
-  filter(DMINORITY == "B") 
+minority <- minority %>%
+  mutate(Q34 = as.numeric(Q34))
+
+nonminority <- nonminority %>%
+  mutate(Q34 = as.numeric(Q34)) 
 
 
 
+minority %>%
+  ggplot(mapping = aes(Q34)) +
+  geom_density(color = "blue") +
+  scale_x_continuous(expand = expand_scale(mult = c(0.002, 0)), 
+                     limits = c(0, NA)) +
+  scale_y_continuous(expand = expand_scale(mult = c(0, 0.2))) +
+  ggtitle("Employee's perception on the promotion of programs focused on diversity in the workplace") +
+  labs(x = "Agreement level (1: strongly disagree - 5: strongly agree)",
+       y = "Density")
 
-#Plot of feeling of empowerment by minority group 
-ggplot(data = nonminority, mapping = aes(x = Q30)) + 
-  geom_histogram(bins = 15, fill = "violet") +
-  scale_x_continuous(expand = expand_scale(mult = c(0, 0.1)), 
-                     limits = c(0, 5)) +  
-  scale_y_continuous(expand = expand_scale(mult = c(0, 0.2)), labels = scales::comma) +
-  labs(x = "Group: Non-Minorities",
-       y = "Count") +
-  ggtitle("Employees feeling of personal empowerment \n with respect to work processes") +
-  theme(plot.title = element_text(hjust = 0.5))
+
+nonminority %>%
+  ggplot(mapping = aes(Q34)) +
+  geom_density(color = "blue") +
+  scale_x_continuous(expand = expand_scale(mult = c(0.002, 0)), 
+                     limits = c(0, NA)) +
+  scale_y_continuous(expand = expand_scale(mult = c(0, 0.2))) +
+  ggtitle("Employee's perception on the promotion of programs focused on diversity in the workplace") +
+  labs(x = "Agreement level (1: strongly disagree - 5: strongly agree)",
+       y = "Density")
+
 
 ```
