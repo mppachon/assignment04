@@ -9,14 +9,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 #set up packages
 library(tidyverse)
-##add github url
+
 
 ```
 
 ## Overview
 For this analysis, I will be using the 2019 Federal Employee Viewpoint Survey (FEVS). This is a survey which provides employee's perceptions on the work environment and the overall success in their work unit. The survey also has a number of demographic measures that provide insight into how these perspectives may converge or diverge across groups. The FEVS has been used to create  a number of tools focused on diversity and inclusion in the work place.
 The FEVS data is public and available here: [RStudio] (https://www.opm.gov/fevs/public-data-file/)
-
+Github url: 
+[Github] (https://github.com/mppachon/assignment04)
 ```{r ,include=FALSE}
 #loads data
 dta <- read_csv("FEVS_2019.csv")
@@ -29,16 +30,18 @@ dta1 <- dta %>%
   group_by(Q30, DMINORITY) %>%
   filter(DMINORITY == "A" | DMINORITY == "B") 
  
-
-agg <- acc %>%
-  group_by(StateFIPSCode, YEAR) %>%
-  summarize(TOTAL = sum(FATALS))
-
-
+#filters data by minority participants
 minority <- dta %>%
   mutate(Q30 = as.numeric(Q30)) %>%
   group_by(DMINORITY, Q30)  %>%
   filter(DMINORITY == "A") 
+
+
+#filters data by non-minority participants
+nonminority <- dta %>%
+  mutate(Q30 = as.numeric(Q30)) %>%
+  group_by(DMINORITY, Q30)  %>%
+  filter(DMINORITY == "B") 
 
 
 ```
@@ -53,22 +56,17 @@ ggplot(data = minority, mapping = aes(x = Q30)) +
   scale_x_continuous(expand = expand_scale(mult = c(0, 0.1)), 
                      limits = c(0, 5)) +  
   scale_y_continuous(expand = expand_scale(mult = c(0, 0.2)), labels = scales::comma) +
-  labs(x = "Group: Minorities",
+  labs(x = "Group: Minorities (1:strongly disagree - 5: strongly agree)",
        y = "Count") +
   ggtitle("Employees feeling of personal empowerment \n with respect to work processes") +
   theme(plot.title = element_text(hjust = 0.5))
 
 ```
+This plot says very little of what is happening in the data. It is an attempt to show the density of the responses to the survey by minority participants. Due to largeness of the data the count is very large and might screw what the responses intend to portray.
 
 
 ## Plot 2
 ```{r pressure, echo=FALSE}
-
-nonminority <- dta %>%
-  mutate(Q30 = as.numeric(Q30)) %>%
-  group_by(DMINORITY, Q30)  %>%
-  filter(DMINORITY == "B") 
-
 
 #Plot of feeling of empowerment by minority group 
 ggplot(data = nonminority, mapping = aes(x = Q30)) + 
@@ -82,6 +80,7 @@ ggplot(data = nonminority, mapping = aes(x = Q30)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 ```
+This plot is a replica of the first plot but explores the same distribution across non-minorities. Again, there is something about that doesn't make sense here. 
 
 ## Plot 3
 ```{r pressure, echo=FALSE}
@@ -99,6 +98,8 @@ ggplot(data = dta1, aes(x = DMINORITY, y = Q34)) +
 
 
 ```
+This plot is an attempt to visualize both minority groups side by side. The numbers do not truly reflect how each group has responded to the survey responses. 
+
 
 ## Plot 4
 
@@ -135,3 +136,4 @@ nonminority %>%
 
 
 ```
+These last two plots show density of responses by group just as plot 1 and 2. This time I chose a different type of density plot to show each one. 
