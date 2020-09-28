@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 #set up packages
 library(tidyverse)
+install.packages("ggridges")
 ##add github url
 
 ```
@@ -58,9 +59,10 @@ ggplot(data = minority, mapping = aes(x = Q30)) +
   ggtitle("Employees feeling of personal empowerment \n with respect to work processes") +
   theme(plot.title = element_text(hjust = 0.5))
 
-
 ```
 
+
+## Plot 2
 ```{r pressure, echo=FALSE}
 
 nonminority <- dta %>%
@@ -71,7 +73,7 @@ nonminority <- dta %>%
 
 #Plot of feeling of empowerment by minority group 
 ggplot(data = nonminority, mapping = aes(x = Q30)) + 
-  geom_histogram(bins = 15, fill = "dodgerblue3") +
+  geom_histogram(bins = 15, fill = "violet") +
   scale_x_continuous(expand = expand_scale(mult = c(0, 0.1)), 
                      limits = c(0, 5)) +  
   scale_y_continuous(expand = expand_scale(mult = c(0, 0.2)), labels = scales::comma) +
@@ -80,5 +82,46 @@ ggplot(data = nonminority, mapping = aes(x = Q30)) +
   ggtitle("Employees feeling of personal empowerment \n with respect to work processes") +
   theme(plot.title = element_text(hjust = 0.5))
 
+```
+
+## Plot 3
+```{r pressure, echo=FALSE}
+
+dta1 <- dta1 %>%
+  mutate(Q34 = as.numeric(Q34))
+
+
+#creates plot 
+ggplot(data = dta1, aes(x = DMINORITY, y = Q34)) +
+  geom_bar(stat = "identity", width = 0.5, fill = "dodgerblue3") +
+  ggtitle("Employee's perception on the promotion of programs focused on diversity in the workplace") +
+       xlab("Group") + ylab("Count") +
+      theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+## Plot 4
+
+```{r pressure, echo=FALSE}
+
+nonminority <- dta %>%
+  mutate(Q30 = as.numeric(Q30)) %>%
+  group_by(DMINORITY, Q30)  %>%
+  filter(DMINORITY == "B") 
+
+
+
+
+#Plot of feeling of empowerment by minority group 
+ggplot(data = nonminority, mapping = aes(x = Q30)) + 
+  geom_histogram(bins = 15, fill = "violet") +
+  scale_x_continuous(expand = expand_scale(mult = c(0, 0.1)), 
+                     limits = c(0, 5)) +  
+  scale_y_continuous(expand = expand_scale(mult = c(0, 0.2)), labels = scales::comma) +
+  labs(x = "Group: Non-Minorities",
+       y = "Count") +
+  ggtitle("Employees feeling of personal empowerment \n with respect to work processes") +
+  theme(plot.title = element_text(hjust = 0.5))
 
 ```
